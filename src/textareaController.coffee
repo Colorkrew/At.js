@@ -50,5 +50,5 @@ class TextareaController extends Controller
       $inputor.val text
       $inputor.caret('pos', startStr.length + content.length, {iframe: self.iframe})
       $inputor.focus() unless $inputor.is ':focus'
-      
+
     $inputor.change()
