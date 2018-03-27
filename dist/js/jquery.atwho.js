@@ -1,24 +1,3 @@
-/**
- * at.js - 1.5.4
- * Copyright (c) 2018 chord.luo <chord.luo@gmail.com>;
- * Homepage: http://ichord.github.com/At.js
- * License: MIT
- */
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module unless amdModuleId is set
-    define(["jquery"], function (a0) {
-      return (factory(a0));
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory(require("jquery"));
-  } else {
-    factory(jQuery);
-  }
-}(this, function ($) {
 var DEFAULT_CALLBACKS, KEY_CODE;
 
 KEY_CODE = {
@@ -88,7 +67,7 @@ DEFAULT_CALLBACKS = {
     });
   },
   tplEval: function(tpl, map) {
-    var error, error1, template;
+    var error, template;
     template = tpl;
     try {
       if (typeof tpl !== 'string') {
@@ -142,7 +121,7 @@ App = (function() {
   };
 
   App.prototype.setupRootElement = function(iframe, asRoot) {
-    var error, error1;
+    var error;
     if (asRoot == null) {
       asRoot = false;
     }
@@ -411,7 +390,7 @@ Controller = (function() {
   };
 
   Controller.prototype.callDefault = function() {
-    var args, error, error1, funcName;
+    var args, error, funcName;
     funcName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
     try {
       return DEFAULT_CALLBACKS[funcName].apply(this, args);
@@ -437,7 +416,7 @@ Controller = (function() {
   };
 
   Controller.prototype.getOpt = function(at, default_value) {
-    var e, error1;
+    var e;
     try {
       return this.setting[at];
     } catch (error1) {
@@ -619,20 +598,23 @@ TextareaController = (function(superClass) {
   };
 
   TextareaController.prototype.insert = function(content, $li) {
-    var $inputor, source, startStr, suffix, text;
+    var $inputor, self, source, startStr, suffix, text;
     $inputor = this.$inputor;
     source = $inputor.val();
     startStr = source.slice(0, Math.max(this.query.headPos - this.at.length, 0));
     suffix = (suffix = this.getOpt('suffix')) === "" ? suffix : suffix || " ";
     content += suffix;
     text = "" + startStr + content + (source.slice(this.query['endPos'] || 0));
-    $inputor.val(text);
-    $inputor.caret('pos', startStr.length + content.length, {
-      iframe: this.app.iframe
+    self = this.app;
+    setTimeout(function() {
+      $inputor.val(text);
+      $inputor.caret('pos', startStr.length + content.length, {
+        iframe: self.iframe
+      });
+      if (!$inputor.is(':focus')) {
+        return $inputor.focus();
+      }
     });
-    if (!$inputor.is(':focus')) {
-      $inputor.focus();
-    }
     return $inputor.change();
   };
 
@@ -1211,5 +1193,3 @@ $.fn.atwho["default"] = {
 };
 
 $.fn.atwho.debug = false;
-
-}));
