@@ -462,6 +462,9 @@ Controller = (function() {
 
   Controller.prototype.lookUp = function(e) {
     var query, wait;
+    if (!e) {
+      return;
+    }
     if (e && e.type === 'click' && !this.getOpt('lookUpOnClick')) {
       return;
     }
@@ -605,7 +608,6 @@ TextareaController = (function(superClass) {
     suffix = (suffix = this.getOpt('suffix')) === "" ? suffix : suffix || " ";
     content += suffix;
     text = "" + startStr + content + (source.slice(this.query['endPos'] || 0));
-    return $inputor;
     if (!$inputor.is(':focus')) {
       self = this.app;
       $inputor.on('focus', function() {
