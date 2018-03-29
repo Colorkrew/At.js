@@ -45,11 +45,18 @@ class TextareaController extends Controller
     suffix = if (suffix = @getOpt 'suffix') == "" then suffix else suffix or " "
     content += suffix
     text = "#{startStr}#{content}#{source.slice @query['endPos'] || 0}"
-    self = @app
-    setTimeout ->
-      $inputor.val text
-      $inputor.caret('pos', startStr.length + content.length, {iframe: self.iframe})
-      $inputor.focus() unless $inputor.is ':focus'
-      $inputor.change()
-
-    $inputor
+    
+    if !$inputor.is(':focus')
+      self = @app
+      $inputor.on 'focus', -> 
+        $inputor.one 'change', ->
+          $inputor.val text
+          $inputor.change()
+          $inputor.caret('pos', startStr.length + content.length, {iframe: self.iframe})
+          
+        setTimeout ->
+          $inputor.change()
+        , 100
+      $inputor.focus()
+      
+    return $inputor
