@@ -46,8 +46,8 @@ class TextareaController extends Controller
     content += suffix
     text = "#{startStr}#{content}#{source.slice @query['endPos'] || 0}"
     
+    self = @app
     if !$inputor.is(':focus')
-      self = @app
       $inputor.on 'focus', -> 
         $inputor.one 'change', ->
           $inputor.val text
