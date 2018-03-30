@@ -630,7 +630,6 @@ TextareaController = (function(superClass) {
     content += suffix;
     text = "" + startStr + content + (source.slice(this.query['endPos'] || 0));
     self = this.app;
-    console.log('fsdalkfjksdlajfjlsdajflk')
     if (!$inputor.is(':focus')) {
       $inputor.on('focus', function() {
         $inputor.one('change', function() {
