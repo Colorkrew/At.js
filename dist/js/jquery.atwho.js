@@ -623,6 +623,12 @@ TextareaController = (function(superClass) {
         }, 100);
       });
       $inputor.focus();
+    } else {
+      $inputor.val(text);
+      $inputor.caret('pos', startStr.length + content.length, {
+        iframe: self.iframe
+      });
+      return $inputor.change();
     }
     return $inputor;
   };
