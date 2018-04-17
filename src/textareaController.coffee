@@ -48,7 +48,7 @@ class TextareaController extends Controller
     
     if !$inputor.is(':focus')
       self = @app
-      $inputor.on 'focus', -> 
+      $inputor.one 'focus', -> 
         $inputor.one 'change', ->
           $inputor.val text
           $inputor.change()
