@@ -629,8 +629,8 @@ TextareaController = (function(superClass) {
     suffix = (suffix = this.getOpt('suffix')) === "" ? suffix : suffix || " ";
     content += suffix;
     text = "" + startStr + content + (source.slice(this.query['endPos'] || 0));
+    self = this.app;
     if (!$inputor.is(':focus')) {
-      self = this.app;
       $inputor.on('focus', function() {
         $inputor.one('change', function() {
           $inputor.val(text);
@@ -644,6 +644,12 @@ TextareaController = (function(superClass) {
         }, 100);
       });
       $inputor.focus();
+    } else {
+      $inputor.val(text);
+      $inputor.caret('pos', startStr.length + content.length, {
+        iframe: self.iframe
+      });
+      return $inputor.change();
     }
     return $inputor;
   };
